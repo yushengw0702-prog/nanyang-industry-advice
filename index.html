@@ -117,6 +117,60 @@
   .stat .n small{font-size:12px;color:var(--ink-soft);font-weight:600;}
   .stat .k{font-size:11.5px;color:var(--ink-soft);margin-top:6px;line-height:1.4;}
 
+  /* ===== 品牌 logo 徽标 ===== */
+  .logo-badge{width:38px;height:38px;flex:0 0 38px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+    background:#fff;border:1px solid var(--line);box-shadow:0 3px 9px rgba(20,30,45,.12);overflow:hidden;}
+  .logo-badge svg{width:24px;height:24px;display:block;}
+  .lb-doubao{background:#cfe6f7;border-color:#b7d6ee;}
+  .lb-deepseek{background:#fff;}
+  .lb-deepseek svg{color:#4d6bfe;}
+  .lb-xiaomi{background:#ff6900;border-color:#e85f00;}
+  .lb-openai{background:#fff;}
+  .lb-openai svg{color:#000;width:23px;height:23px;}
+  .lb-claude{background:#d97757;border-color:#cf6a44;}
+  .lb-claude svg{color:#fff;}
+  /* hero 内的小号 logo */
+  .hero .players .logo-badge{width:36px;height:36px;flex:0 0 36px;border-radius:10px;}
+  .hero .players .logo-badge svg{width:22px;height:22px;}
+
+  /* ===== 底部总结卡 ===== */
+  .summary{background:var(--card);border:1px solid #ecdcb4;border-radius:var(--radius);box-shadow:var(--shadow);
+    overflow:hidden;margin-top:24px;}
+  .summary .sm-head{background:linear-gradient(135deg,#0b1f3a,#1f4e79);color:#fff;padding:18px 18px 16px;position:relative;overflow:hidden;}
+  .summary .sm-head::after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;
+    background:radial-gradient(circle,rgba(176,132,35,.45),transparent 70%);}
+  .summary .sm-tag{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:#ffce4d;border:1px solid rgba(255,206,77,.4);padding:3px 10px;border-radius:20px;}
+  .summary .sm-head h2{font-size:21px;margin:12px 0 4px;font-weight:800;position:relative;}
+  .summary .sm-head .sub{font-size:13px;color:#c4d4ea;position:relative;}
+  .summary .sm-verdict{display:flex;align-items:center;gap:14px;padding:16px 18px;background:#fdeceb;border-bottom:1px solid #f3c9c5;}
+  .summary .sm-verdict .rank{flex:0 0 auto;width:54px;height:54px;border-radius:14px;background:var(--danger);color:#fff;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;box-shadow:0 4px 12px rgba(179,38,30,.3);}
+  .summary .sm-verdict .rank b{font-size:22px;font-weight:800;}
+  .summary .sm-verdict .rank span{font-size:9px;margin-top:3px;letter-spacing:.05em;}
+  .summary .sm-verdict .v-txt{font-size:15px;line-height:1.5;}
+  .summary .sm-verdict .v-txt b{color:var(--danger);font-size:17px;}
+  .summary .sm-verdict .v-txt small{color:var(--ink-soft);font-size:12.5px;display:block;margin-top:3px;}
+  .summary .sm-body{padding:16px 18px 6px;}
+  .dim{display:flex;gap:12px;padding:13px 0;border-bottom:1px dashed var(--line);}
+  .dim:last-of-type{border-bottom:none;}
+  .dim .ico{flex:0 0 36px;width:36px;height:36px;border-radius:10px;background:var(--accent-bg);border:1px solid #ecdcb4;
+    display:flex;align-items:center;justify-content:center;color:var(--accent);}
+  .dim .ico svg{width:19px;height:19px;}
+  .dim .d-txt{flex:1;}
+  .dim .d-txt h4{font-size:14.5px;margin:2px 0 4px;color:var(--brand);font-weight:700;}
+  .dim .d-txt p{margin:0;font-size:13px;color:var(--ink);line-height:1.6;}
+  .dim .d-txt p b{color:var(--danger);}
+  .runners{margin:6px 18px 0;padding:14px 0 4px;border-top:1px solid var(--line);}
+  .runners .r-ttl{font-size:13px;font-weight:700;color:var(--brand);margin-bottom:10px;}
+  .runners .r-item{display:flex;align-items:flex-start;gap:9px;font-size:12.5px;color:var(--ink-soft);margin:7px 0;line-height:1.5;}
+  .runners .r-item .num{flex:0 0 20px;width:20px;height:20px;border-radius:6px;background:var(--warn);color:#fff;
+    font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .runners .r-item b{color:var(--ink);}
+  .summary .sm-foot{background:#eef4ec;border-top:1px solid #d6e6d6;padding:14px 18px;font-size:13px;color:var(--ink);line-height:1.6;}
+  .summary .sm-foot .lead{font-weight:700;color:var(--ok);display:flex;align-items:center;gap:6px;margin-bottom:5px;}
+  .summary .sm-foot b{color:var(--ok);}
+
   /* 阅读说明 */
   .notice{
     background:var(--card);border:1px solid var(--line);border-left:4px solid var(--brand-2);
@@ -211,6 +265,47 @@
 </head>
 <body>
 
+<!-- ===== 品牌 logo 定义（内联 SVG，可复用） ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- 豆包：女孩头像 -->
+    <symbol id="logo-doubao" viewBox="0 0 100 100">
+      <path d="M24 44c0-17 12-29 26-29s26 12 26 29c0 6-1 11-3 16H27c-2-5-3-10-3-16z" fill="#6b4a3a"/>
+      <circle cx="50" cy="50" r="20" fill="#f6cfae"/>
+      <path d="M30 46c0-15 9-25 20-25s20 10 20 25c0-4-3-10-8-12-4 4-9 6-15 6-4 0-8-1-11-3-4 3-6 7-6 9z" fill="#6b4a3a"/>
+      <circle cx="43" cy="50" r="3" fill="#3a2a23"/>
+      <circle cx="57" cy="50" r="3" fill="#3a2a23"/>
+      <path d="M46 60q4 3 8 0" stroke="#c98e6a" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <!-- DeepSeek：鲸鱼 -->
+    <symbol id="logo-deepseek" viewBox="0 0 100 100">
+      <path d="M16 60c0-16 14-28 32-28 11 0 20 4 26 12 4-3 9-5 14-4-2 5-6 8-10 9 3 6 1 14-4 18-3-7-9-9-15-9-2 6-8 10-15 10-3 0-7-1-9-3-7 1-15-1-19 0-0-2 0-3 0-5z" fill="currentColor"/>
+      <circle cx="34" cy="50" r="3.2" fill="#fff"/>
+    </symbol>
+    <!-- 小米 MI -->
+    <symbol id="logo-xiaomi" viewBox="0 0 100 100">
+      <text x="50" y="50" text-anchor="middle" dominant-baseline="central" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="44" fill="#fff" letter-spacing="-1">MI</text>
+    </symbol>
+    <!-- OpenAI 结 -->
+    <symbol id="logo-openai" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/>
+    </symbol>
+    <!-- Anthropic / Claude 星芒 -->
+    <symbol id="logo-claude" viewBox="0 0 100 100">
+      <g stroke="currentColor" stroke-width="6.5" stroke-linecap="round">
+        <line x1="50" y1="50" x2="50" y2="12"/><line x1="50" y1="50" x2="50" y2="88"/>
+        <line x1="50" y1="50" x2="12" y2="50"/><line x1="50" y1="50" x2="88" y2="50"/>
+        <line x1="50" y1="50" x2="23" y2="23"/><line x1="50" y1="50" x2="77" y2="77"/>
+        <line x1="50" y1="50" x2="77" y2="23"/><line x1="50" y1="50" x2="23" y2="77"/>
+        <line x1="50" y1="50" x2="34" y2="16"/><line x1="50" y1="50" x2="66" y2="84"/>
+        <line x1="50" y1="50" x2="66" y2="16"/><line x1="50" y1="50" x2="34" y2="84"/>
+        <line x1="50" y1="50" x2="16" y2="34"/><line x1="50" y1="50" x2="84" y2="66"/>
+        <line x1="50" y1="50" x2="84" y2="34"/><line x1="50" y1="50" x2="16" y2="66"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
 <nav class="quicknav" aria-label="快速定位">
   <span class="qn-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>定位</span>
   <a href="#ai-doubao">豆包</a>
@@ -234,11 +329,11 @@
     </div>
     <div class="players">
       <span class="lbl">参与模型</span>
-      <span class="avatar av-doubao" title="豆包">豆</span>
-      <span class="avatar av-deepseek" title="DeepSeek">DS</span>
-      <span class="avatar av-xiaomi" title="小米">米</span>
-      <span class="avatar av-chatgpt" title="ChatGPT">GPT</span>
-      <span class="avatar av-claude" title="Claude">Cl</span>
+      <span class="logo-badge lb-doubao" title="豆包"><svg><use href="#logo-doubao"/></svg></span>
+      <span class="logo-badge lb-deepseek" title="DeepSeek"><svg><use href="#logo-deepseek"/></svg></span>
+      <span class="logo-badge lb-xiaomi" title="小米 MIMO"><svg><use href="#logo-xiaomi"/></svg></span>
+      <span class="logo-badge lb-openai" title="ChatGPT (OpenAI)"><svg><use href="#logo-openai"/></svg></span>
+      <span class="logo-badge lb-claude" title="Claude (Anthropic)"><svg><use href="#logo-claude"/></svg></span>
     </div>
     <div class="scroll-cue"><span>向下查看完整对比</span><span class="arr">↓</span></div>
   </div>
@@ -275,7 +370,7 @@
   <section class="ai" id="ai-doubao">
     <div class="ai-head">
       <div class="row1">
-        <span class="seq av-doubao">A</span>
+        <span class="logo-badge lb-doubao"><svg><use href="#logo-doubao"/></svg></span>
         <span class="ai-name">豆包</span>
         <span class="flag dm">国产</span>
       </div>
@@ -365,7 +460,7 @@
   <section class="ai" id="ai-deepseek">
     <div class="ai-head">
       <div class="row1">
-        <span class="seq av-deepseek">B</span>
+        <span class="logo-badge lb-deepseek"><svg><use href="#logo-deepseek"/></svg></span>
         <span class="ai-name">DeepSeek</span>
         <span class="flag dm">国产</span>
       </div>
@@ -435,7 +530,7 @@
     <div class="src-flag">含数据来源 ✦</div>
     <div class="ai-head">
       <div class="row1">
-        <span class="seq av-xiaomi">C</span>
+        <span class="logo-badge lb-xiaomi"><svg><use href="#logo-xiaomi"/></svg></span>
         <span class="ai-name">小米</span>
         <span class="flag dm">国产</span>
       </div>
@@ -517,7 +612,7 @@
     <div class="src-flag">含数据来源 ✦</div>
     <div class="ai-head">
       <div class="row1">
-        <span class="seq av-chatgpt">D</span>
+        <span class="logo-badge lb-openai"><svg><use href="#logo-openai"/></svg></span>
         <span class="ai-name">ChatGPT</span>
         <span class="flag fr">国外</span>
       </div>
@@ -632,7 +727,7 @@
     <div class="src-flag">含数据来源 ✦</div>
     <div class="ai-head">
       <div class="row1">
-        <span class="seq av-claude">E</span>
+        <span class="logo-badge lb-claude"><svg><use href="#logo-claude"/></svg></span>
         <span class="ai-name">Claude</span>
         <span class="flag fr">国外</span>
       </div>
@@ -709,6 +804,56 @@
       <p><b>第二，</b>这张表是“风险排序”不是“禁区”。如果你有别人没有的独特优势——比如自家有稳定供货渠道、有现成铺面不用付租金、有专业技术或人脉——某些行业的实际风险会比表里低很多。</p>
       <p><b>第三，</b>反过来，南阳本地相对在扶持的方向是先进制造、绿色低碳、生物医药新材料、数字经济等产业，但这些普通家庭很难直接切入，更现实的是去这些行业的成熟企业<b>就业</b>而不是自己创业。</p>
       <p>如果你愿意说说手头大概有多少启动资金、家里有没有现成的资源（铺面、技术、渠道、人脉），我可以帮你把“该躲开什么”换成“以你的条件相对稳妥的几个方向”。</p>
+    </div>
+  </section>
+
+  <!-- ===================== 底部总结卡 ===================== -->
+  <section class="summary">
+    <div class="sm-head">
+      <span class="sm-tag">✦ 综合 5 大 AI 的最终总结</span>
+      <h2>最不推荐：房地产相关行业</h2>
+      <div class="sub">炒房 · 商铺公寓 · 开发商项目 · 房产中介 · 重资产装修建材链条</div>
+    </div>
+
+    <div class="sm-verdict">
+      <div class="rank"><b>NO.1</b><span>最高风险</span></div>
+      <div class="v-txt"><b>5 个 AI 全部</b>把它排在第一档。<small>豆包、DeepSeek、小米、ChatGPT、Claude 无一例外，这是分歧最小、最值得普通家庭警惕的结论。</small></div>
+    </div>
+
+    <div class="sm-body">
+      <div class="dim">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="d-txt"><h4>① 资金维度：投入大、流动性差、亏不起</h4><p>单笔投入动辄几十上百万、杠杆高、变现慢。普通家庭一旦套牢，基本是<b>几年甚至大半辈子积蓄归零</b>，属于"致命级"而非"擦伤级"风险——这是各家 AI 把它排第一的根本原因。</p></div>
+      </div>
+      <div class="dim">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M19 9l-5 5-4-4-3 3"/></svg></div>
+        <div class="d-txt"><h4>② 数据维度：本地与全国双双下行</h4><p>南阳 2025 年房地产开发投资<b>下降 23.1%</b>、住宅投资<b>下降 24.2%</b>、商品房销售额下降 4.2%；全国房地产开发投资也下降 17.2%，行业仍在出清。趋势数据明确指向"还在跌"。<span class="cit">来源：南阳市统计局</span></p></div>
+      </div>
+      <div class="dim">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="d-txt"><h4>③ 人口维度：接盘的人越来越少</h4><p>南阳人口自然增长率为 <b>-3.77‰</b>，是河南人口流失最严重的城市之一。买房、商铺的"下家"持续减少，再加上历史"烂尾楼"问题突出，房子和商铺<b>越来越难出手</b>。</p></div>
+      </div>
+      <div class="dim">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+        <div class="d-txt"><h4>④ 现金流维度：垫资 + 三角债的绞肉机</h4><p>装修、建材这类下游要<b>先垫材料费和人工费</b>，南阳烂尾楼、包工头跑路频发，回款极难。一旦对方拿"顶账房"抵债，家庭立即陷入"钱房两空、还欠工人工资"，甚至沦为<b>失信被执行人</b>。</p></div>
+      </div>
+      <div class="dim">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div class="d-txt"><h4>⑤ 政策维度：行业仍在调整期</h4><p>整个房地产链条处于深度出清、融资收紧阶段，中小参与者融资渠道基本关闭、资金链极易断裂。普通家庭缺乏抗风险能力，此时入场<b>近乎赌博</b>。</p></div>
+      </div>
+    </div>
+
+    <div class="runners">
+      <div class="r-ttl">⚠️ 其他被多家 AI 反复点名的高风险行业</div>
+      <div class="r-item"><span class="num">2</span><div><b>高加盟费餐饮</b>（奶茶/炸鸡/烧烤/咖啡）：加盟费+装修+设备前期投入大，南阳消费力有限，闭店率高、回本难。</div></div>
+      <div class="r-item"><span class="num">3</span><div><b>违规/学科类教培</b>：双减政策红线，被举报即没收所得并处 1-5 倍罚款，长期生源还在萎缩。</div></div>
+      <div class="r-item"><span class="num">4</span><div><b>重资产线下零售</b>（服装/百货/商超）：被电商和直播碾压，库存与租金双重压力，沦为"试衣间"。</div></div>
+      <div class="r-item"><span class="num">5</span><div><b>散户养殖</b>（生猪/牛羊）：南阳是牧原大本营，散户没有定价权；疫病+猪周期，贷款扩建极易血本无归。</div></div>
+    </div>
+
+    <div class="sm-foot">
+      <div class="lead"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>那普通家庭该往哪走？</div>
+      各家 AI 的共识方向是：<b>低库存、低房租、轻资产、靠技能或服务复购</b>的生意——比如本地维修安装、社区便民服务、老人陪诊、农产品小规模品牌化、绿色农业深加工等；或者干脆<b>去本地在扶持的产业（先进制造、绿色低碳、生物医药、数字经济）的成熟企业就业</b>，而不是自己创业重仓。<br><b style="color:var(--ink-soft);font-weight:600;font-size:12px;">※ 本总结为 5 个 AI 回答的归纳，仅供参考，不构成投资建议。</b>
     </div>
   </section>
 
