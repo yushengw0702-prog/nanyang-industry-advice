@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>对普通家庭最不推荐参与的行业 · 各AI模型对比</title>
+<style>
+  :root{
+    --bg:#f4f5f7;
+    --card:#ffffff;
+    --ink:#1c2430;
+    --ink-soft:#566071;
+    --line:#e3e6ea;
+    --brand:#13315c;
+    --brand-2:#1f4e79;
+    --accent:#b08423;       /* 商务金，用于数据来源高亮 */
+    --accent-bg:#fbf4e3;
+    --danger:#b3261e;
+    --warn:#c77700;
+    --ok:#2e7d4f;
+    --domestic:#c0392b;     /* 国产标识 */
+    --foreign:#1f6fb2;      /* 国外标识 */
+    --radius:14px;
+    --shadow:0 1px 3px rgba(20,30,45,.06),0 8px 24px rgba(20,30,45,.05);
+  }
+  *{box-sizing:border-box;-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
+    line-height:1.7;font-size:15px;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 14px 56px;}
+
+  /* 顶部 */
+  header.top{
+    background:linear-gradient(135deg,var(--brand) 0%,var(--brand-2) 100%);
+    color:#fff;border-radius:0 0 var(--radius) var(--radius);
+    padding:26px 20px 22px;margin:0 -14px 18px;box-shadow:var(--shadow);
+  }
+  header.top .kicker{font-size:12px;letter-spacing:.16em;opacity:.82;text-transform:uppercase;}
+  header.top h1{font-size:21px;margin:8px 0 6px;font-weight:700;letter-spacing:.5px;line-height:1.45;}
+  header.top .meta{font-size:13px;opacity:.9;display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;}
+  header.top .meta span{display:inline-flex;align-items:center;gap:5px;}
+  header.top .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;}
+
+  /* 阅读说明 */
+  .notice{
+    background:var(--card);border:1px solid var(--line);border-left:4px solid var(--brand-2);
+    border-radius:10px;padding:12px 14px;font-size:13px;color:var(--ink-soft);margin-bottom:20px;box-shadow:var(--shadow);
+  }
+  .notice b{color:var(--ink);}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+  .legend .tag{font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid var(--line);background:#fafbfc;color:var(--ink-soft);}
+  .legend .tag.dm{border-color:var(--domestic);color:var(--domestic);}
+  .legend .tag.fr{border-color:var(--foreign);color:var(--foreign);}
+  .legend .tag.src{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);}
+
+  /* AI 卡片 */
+  .ai{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+      box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden;position:relative;}
+  .ai-head{padding:16px 16px 14px;border-bottom:1px solid var(--line);position:relative;}
+  .ai-head .row1{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .seq{width:26px;height:26px;flex:0 0 26px;border-radius:8px;background:var(--brand);color:#fff;
+       font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;}
+  .ai-name{font-size:18px;font-weight:700;color:var(--ink);}
+  .org{font-size:12px;color:var(--ink-soft);}
+  .flag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;line-height:1.6;white-space:nowrap;}
+  .flag.dm{color:#fff;background:var(--domestic);}
+  .flag.fr{color:#fff;background:var(--foreign);}
+  .strength{font-size:12.5px;color:var(--ink-soft);margin-top:9px;line-height:1.6;
+            background:#f7f9fb;border:1px solid var(--line);border-radius:8px;padding:8px 10px;}
+  .strength b{color:var(--brand-2);}
+
+  /* 数据来源角标 */
+  .src-flag{position:absolute;top:0;right:0;background:var(--accent);color:#fff;font-size:11px;font-weight:600;
+            padding:4px 11px;border-radius:0 var(--radius) 0 10px;letter-spacing:.04em;box-shadow:0 2px 6px rgba(176,132,35,.3);}
+
+  .ai-body{padding:16px;}
+  .ai-body h3{font-size:15.5px;margin:18px 0 8px;color:var(--brand);font-weight:700;
+              border-left:3px solid var(--accent);padding-left:9px;line-height:1.4;}
+  .ai-body h3:first-child{margin-top:0;}
+  .ai-body p{margin:10px 0;color:var(--ink);}
+  .ai-body .lead{color:var(--ink-soft);font-size:14px;}
+  .ai-body ul,.ai-body ol{margin:10px 0;padding-left:20px;}
+  .ai-body li{margin:7px 0;}
+  .conclusion{background:var(--accent-bg);border:1px solid #ecdcb4;border-radius:10px;padding:12px 14px;margin:12px 0;font-size:14px;}
+  .conclusion b{color:var(--accent);}
+
+  /* 表格 */
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px -4px;border-radius:10px;}
+  table{border-collapse:collapse;width:100%;min-width:560px;font-size:12.5px;background:#fff;}
+  thead th{background:var(--brand);color:#fff;font-weight:600;padding:9px 10px;text-align:left;
+           position:sticky;top:0;white-space:nowrap;}
+  tbody td{border:1px solid var(--line);padding:9px 10px;vertical-align:top;color:var(--ink);}
+  tbody tr:nth-child(even){background:#fafbfc;}
+  td.name{font-weight:700;color:var(--brand-2);min-width:118px;}
+  td ul{margin:0;padding-left:16px;}
+  td ul li{margin:3px 0;}
+  .lvl{white-space:nowrap;font-weight:700;}
+  .lvl.r5,.lvl.t1{color:var(--danger);}
+  .lvl.r4,.lvl.t2{color:var(--warn);}
+  .lvl.r3,.lvl.t3{color:var(--ok);}
+  /* 房地产相关行高亮 */
+  tbody tr.re-row,tbody tr.re-row:nth-child(even){background:#fdeceb;}
+  tbody tr.re-row td{border-color:#f3c9c5;}
+  tbody tr.re-row td.name{position:relative;}
+  tbody tr.re-row td.name::before{content:"●";color:var(--danger);font-size:9px;margin-right:5px;vertical-align:middle;}
+  tbody tr.re-row td.name .re-tag{display:inline-block;font-size:10px;font-weight:700;color:#fff;background:var(--danger);
+       border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:middle;letter-spacing:.04em;}
+  .scroll-hint{font-size:11px;color:var(--ink-soft);text-align:right;margin:-6px 4px 0;}
+
+  /* 引用 / citation */
+  .cit{display:inline-block;font-size:10px;font-weight:700;color:var(--accent);background:var(--accent-bg);
+       border:1px solid #ecdcb4;border-radius:5px;padding:0 4px;margin:0 1px;vertical-align:super;line-height:1.6;}
+  .src-link{display:inline-flex;align-items:center;gap:5px;background:var(--accent-bg);border:1px solid #ecdcb4;
+            border-radius:8px;padding:6px 10px;font-size:12.5px;color:var(--accent);text-decoration:none;
+            word-break:break-all;margin:8px 0;}
+  .src-link b{color:var(--accent);}
+  .isrc{display:inline-block;font-size:11px;font-weight:600;color:var(--accent);background:var(--accent-bg);
+        border:1px solid #ecdcb4;border-radius:5px;padding:0 5px;margin:0 1px;text-decoration:none;line-height:1.7;white-space:nowrap;}
+  .src-note{font-size:11.5px;color:var(--ink-soft);background:#f7f9fb;border:1px dashed var(--line);
+            border-radius:8px;padding:8px 10px;margin-top:12px;}
+  .src-note .badge{color:var(--accent);font-weight:700;}
+
+  .truncated{font-size:12px;color:var(--ink-soft);font-style:normal;background:#fdf3f2;border:1px solid #f3d7d4;
+             border-radius:8px;padding:8px 10px;margin-top:10px;}
+
+  footer{text-align:center;font-size:12px;color:var(--ink-soft);padding:8px 0 0;line-height:1.8;}
+  footer .line{height:1px;background:var(--line);margin:0 0 14px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="kicker">AI 模型横向对比 · 决策参考</div>
+    <h1>对普通家庭最不推荐参与的行业</h1>
+    <div class="meta">
+      <span><i class="dot"></i>地区：河南省 南阳市</span>
+      <span><i class="dot"></i>对象：普通家庭</span>
+      <span><i class="dot"></i>时间：2026年6月</span>
+    </div>
+  </header>
+
+  <div class="notice">
+    本页汇总了 <b>5 个主流 AI 大模型</b> 针对同一问题——“对现在的中国，普通家庭（位置：河南南阳）最不推荐参与的行业是什么”——给出的完整回答，<b>内容未做删减</b>，仅作排版与来源标注，便于普通读者对照查看。各回答为模型观点，<b>不构成投资建议</b>，请结合自身情况判断。
+    <div class="legend">
+      <span class="tag dm">国产模型</span>
+      <span class="tag fr">国外模型（附实力说明）</span>
+      <span class="tag src">右上角金标 = 该回答含数据来源</span>
+    </div>
+  </div>
+
+  <!-- ===================== A 豆包 ===================== -->
+  <section class="ai">
+    <div class="ai-head">
+      <div class="row1">
+        <span class="seq">A</span>
+        <span class="ai-name">豆包</span>
+        <span class="flag dm">国产</span>
+      </div>
+      <div class="org" style="margin-top:6px;">字节跳动（ByteDance）旗下大模型 · Doubao</div>
+      <div class="strength">国产第一梯队消费级大模型，由字节跳动研发，<b>中文理解与本地化信息整合能力强</b>，用户规模庞大。</div>
+    </div>
+    <div class="ai-body">
+      <h3>河南省南阳市普通家庭最不推荐参与的行业（2026年）</h3>
+      <p class="lead">以下表格综合了全国行业趋势、南阳本地经济特点、政策导向及普通家庭抗风险能力，列出了<b>最不推荐参与</b>的行业，供决策参考：</p>
+
+      <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>行业名称</th><th>核心不推荐原因</th><th>南阳本地特殊风险</th><th>风险等级</th><th>替代建议</th></tr></thead>
+          <tbody>
+            <tr class="re-row">
+              <td class="name">房地产开发及上下游（建材、装修等）<span class="re-tag">房地产</span></td>
+              <td><ul><li>行业深度调整，全国库存高企，需求萎缩</li><li>普通家庭资金门槛高，杠杆风险大</li><li>回款周期长，现金流断裂风险极高</li></ul></td>
+              <td><ul><li>南阳房地产市场曾过度发展，烂尾楼问题突出</li><li>南水北调环保红线限制城区扩张</li><li>本地人口外流，购房需求持续减弱</li></ul></td>
+              <td class="lvl r5">★★★★★</td>
+              <td>刚需自住可谨慎选择，避免投资性购房；可考虑房屋租赁轻资产运营</td>
+            </tr>
+            <tr>
+              <td class="name">网红餐饮加盟（奶茶、烘焙等）</td>
+              <td><ul><li>行业极度内卷，75%门店倒闭率</li><li>加盟陷阱多，品牌方割韭菜现象普遍</li><li>同质化严重，产品无壁垒，利润被压缩</li></ul></td>
+              <td><ul><li>南阳商圈集中，租金成本高，竞争激烈</li><li>本地消费能力有限，对高价网红产品接受度低</li><li>供应链不完善，配送成本高</li></ul></td>
+              <td class="lvl r4">★★★★☆</td>
+              <td>小型社区特色餐饮（早餐、家常菜），轻资产、低风险，依托本地客流</td>
+            </tr>
+            <tr>
+              <td class="name">高污染高耗能工业（小钢铁、小水泥、小化工）</td>
+              <td><ul><li>国家“双碳”政策严格管控，淘汰落后产能</li><li>环保投入大，合规成本高</li><li>产能过剩，价格战激烈，利润微薄</li></ul></td>
+              <td><ul><li>南阳作为南水北调中线工程核心水源地，环保标准全国最严</li><li>政府坚决遏制“两高”项目，审批极难</li><li>本地工业基础薄弱，缺乏规模效应</li></ul></td>
+              <td class="lvl r5">★★★★★</td>
+              <td>绿色农产品加工、中医药特色产业（南阳有仲景品牌优势）</td>
+            </tr>
+            <tr>
+              <td class="name">传统线下教培机构</td>
+              <td><ul><li>“双减”政策持续收紧，合规要求高</li><li>线上教育冲击，获客成本攀升</li><li>家长消费理性化，付费意愿下降</li></ul></td>
+              <td><ul><li>南阳教育资源集中在公立学校，民办机构生存空间小</li><li>本地家长更注重性价比，高价课程难推广</li><li>房租和师资成本高，利润空间被挤压</li></ul></td>
+              <td class="lvl r4">★★★★☆</td>
+              <td>家庭教育咨询、兴趣培养（书法、绘画等），轻资产、合规风险低</td>
+            </tr>
+            <tr>
+              <td class="name">汽车整车销售（4S店）</td>
+              <td><ul><li>行业进入微利时代，平均利润率仅3.2%</li><li>价格战激烈，部分车企“卖一辆亏一辆”</li><li>新能源转型成本高，传统燃油车库存积压</li></ul></td>
+              <td><ul><li>南阳无本土整车厂，竞争劣势明显</li><li>周边襄阳有汽车产业集群，虹吸效应强</li><li>本地新能源汽车配套设施不完善</li></ul></td>
+              <td class="lvl r4">★★★★☆</td>
+              <td>汽车后市场服务（维修、保养、二手车交易），轻资产、现金流稳定</td>
+            </tr>
+            <tr>
+              <td class="name">医美/皮肤管理（无证/小机构）</td>
+              <td><ul><li>强监管行业，无证经营风险极高</li><li>设备和资质投入大（30-80万）</li><li>客诉率高，口碑一旦受损客流骤减</li></ul></td>
+              <td><ul><li>南阳医美市场不成熟，消费者信任度低</li><li>医疗资源集中在公立医院，民营机构获客难</li><li>合规检查严格，罚款金额大</li></ul></td>
+              <td class="lvl r5">★★★★★</td>
+              <td>社区健康管理（理疗、养生），轻资产、技术门槛低，贴合本地需求</td>
+            </tr>
+            <tr>
+              <td class="name">共享经济重资产项目（共享充电宝、共享汽车）</td>
+              <td><ul><li>市场饱和，竞争激烈，回本周期长</li><li>设备损耗大，维护成本高</li><li>押金监管风险，资金安全无保障</li></ul></td>
+              <td><ul><li>南阳商圈分散，设备铺设成本高</li><li>本地用户付费习惯尚未完全养成</li><li>城市管理严格，违规摆放风险大</li></ul></td>
+              <td class="lvl r3">★★★☆☆</td>
+              <td>社区团购团长、本地生活服务中介，零门槛、轻资产，依托本地资源</td>
+            </tr>
+            <tr>
+              <td class="name">传统大型商超零售</td>
+              <td><ul><li>电商冲击，线下客流持续下滑</li><li>租金和人工成本高，运营压力大</li><li>库存积压风险，资金周转困难</li></ul></td>
+              <td><ul><li>南阳已有大统、万德隆等本土连锁，外来者难立足</li><li>社区便利店和生鲜超市分流严重</li><li>本地消费降级，价格敏感度高</li></ul></td>
+              <td class="lvl r3">★★★☆☆</td>
+              <td>社区生鲜店、小型便利店，精准定位，小而美，贴近居民需求</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>核心判断逻辑</h3>
+      <ol>
+        <li><b>资金门槛：</b>普通家庭抗风险能力弱，应避免<b>高投入、长周期、慢回报</b>的行业</li>
+        <li><b>政策风险：</b>南阳作为南水北调水源地，<b>环保政策</b>和产业导向对高污染行业限制极严</li>
+        <li><b>本地适配：</b>结合南阳<b>农业基础好、文旅资源丰富、中医药特色</b>的优势，优先考虑与本地产业匹配的轻资产项目</li>
+        <li><b>市场趋势：</b>避开<b>内卷严重、产能过剩、被AI替代风险高</b>的行业，选择刚需、稳定、有差异化的赛道</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== B DeepSeek ===================== -->
+  <section class="ai">
+    <div class="ai-head">
+      <div class="row1">
+        <span class="seq">B</span>
+        <span class="ai-name">DeepSeek</span>
+        <span class="flag dm">国产</span>
+      </div>
+      <div class="org" style="margin-top:6px;">深度求索（DeepSeek）· 国产开源推理大模型</div>
+      <div class="strength">国产顶尖大模型代表之一，<b>以强大的逻辑推理与开源生态著称</b>，在全球开源模型中处于领先位置。</div>
+    </div>
+    <div class="ai-body">
+      <p>针对普通家庭（本金有限、怕欠债、亏不起）的生存底线，评判“最不能做”的优先级，核心标准不是“赚不赚钱”，而是“亏钱后会不会让家庭背上巨额债务、且永难翻身”。</p>
+      <p>基于此，我将6个行业按毁灭性风险从高到低排序如下（1级为“绝对禁区”，6级为“尽量远离”）：</p>
+
+      <h3>南阳市普通家庭行业“避坑”优先级排序（1级最致命）</h3>
+      <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>优先级排序</th><th>行业类别</th><th>核心致命点（为什么排在这里）</th><th>对南阳普通家庭的具体后果</th></tr></thead>
+          <tbody>
+            <tr class="re-row">
+              <td class="lvl t1">🔴 第1级<br>（最致命）</td>
+              <td class="name">房地产下游（装修/建材）<span class="re-tag">房地产</span></td>
+              <td>“垫资+三角债”绞肉机。接工程需先垫付材料费和人工费，而南阳烂尾楼及包工头跑路现象频发，回款极难。普通家庭一旦垫资10-20万，对方拿“顶账房”抵债，家庭立马陷入“钱房两空、还欠工人工资”的债务深渊。</td>
+              <td>容易成为法律上的“失信被执行人”，子女上学就业受阻，家庭直接降入赤贫。</td>
+            </tr>
+            <tr>
+              <td class="lvl t1">🔴 第2级<br>（高度致命）</td>
+              <td class="name">重资产养殖（生猪/牛羊）</td>
+              <td>“生物资产归零”+“巨头降维打击”。猪瘟等疫病能让几万元投入一夜清零；且南阳是牧原大本营，散户完全没有定价权。普通家庭若贷款扩建，遇上猪周期低谷，卖一头亏一头，债务利滚利。</td>
+              <td>不仅亏掉存款，还可能欠下银行或民间借贷的巨额饲料款，数年难以还清。</td>
+            </tr>
+            <tr>
+              <td class="lvl t1">🔴 第3级<br>（极大概率亏光）</td>
+              <td class="name">实体餐饮加盟（奶茶/炸鸡）</td>
+              <td>“刚性成本吸血”。加盟费、装修、设备投入动辄15-30万，一旦开业后客流不足，房租和员工工资每月必须硬掏。南阳人均消费有限，撑不过6个月，投入的加盟费直接打水漂。</td>
+              <td>亏掉家庭大半积蓄，但好在亏损有上限（亏完本金即止），一般不至于背债（除非借了高利贷开店）。</td>
+            </tr>
+            <tr>
+              <td class="lvl t2">🟡 第4级<br>（政策一票否决）</td>
+              <td class="name">学科类教培（地下补习）</td>
+              <td>“法律没收违法所得”。“双减”政策下，一旦被举报查实，不仅没收全部学费，还要处以1-5倍罚款。普通家庭无强大关系网，被同行或家长举报概率极高。</td>
+              <td>罚款金额远超利润，可能直接导致家庭存款被强制执行，且留下行政处罚记录。</td>
+            </tr>
+            <tr>
+              <td class="lvl t2">🟡 第5级<br>（资金死局）</td>
+              <td class="name">低端玉石加工与直播</td>
+              <td>“库存锁死流动性”。原料和成品堆在手里，退货率超80%，普通家庭没钱投流买流量，只能死守一堆卖不掉的石头。虽然货还在，但变现能力几乎为零。</td>
+              <td>家庭应急资金被彻底锁死，一旦家人生病或急需用钱，只能超低价割肉甩卖，血亏离场。</td>
+            </tr>
+            <tr>
+              <td class="lvl t3">🟢 第6级<br>（相对最轻）</td>
+              <td class="name">传统低端纺织（家庭作坊）</td>
+              <td>“辛苦白忙活”。虽然利润极薄（日入不足80元），但亏损风险最低。只需购买几台二手缝纫机，投入不过万元，订单少了大不了停机不干。</td>
+              <td>亏的是时间和体力，但基本不会让家庭背上债务或亏掉大额本金，属于“最不致命”的选项。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>给南阳老乡的“保命”总结</h3>
+      <ul>
+        <li>签任何合同前，问自己三句话：① 需要我先垫钱给别人的吗？（要垫钱，直接放弃）；② 万一明天卖不掉，这东西能当饭吃吗？（不能，直接放弃）；③ 本地大企业（如牧原）是不是也在做这个？（是，直接放弃）。</li>
+        <li>绝对底线：如果某个项目需要动用房产抵押、找亲戚大额借款、或刷爆信用卡来凑启动资金，那么……<span class="truncated" style="display:inline-block;margin-top:6px;">（原文到此结束/被截断）</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================== C 小米 ===================== -->
+  <section class="ai">
+    <div class="src-flag">含数据来源 ✦</div>
+    <div class="ai-head">
+      <div class="row1">
+        <span class="seq">C</span>
+        <span class="ai-name">小米</span>
+        <span class="flag dm">国产</span>
+      </div>
+      <div class="org" style="margin-top:6px;">小米（Xiaomi）大模型 · 国产</div>
+      <div class="strength">小米自研大模型，<b>具备联网搜索与多来源信息整合能力</b>，本回答标注了多处搜索引用来源。</div>
+    </div>
+    <div class="ai-body">
+      <p>根据搜索结果中关于全国创业风险警示<span class="cit">7</span><span class="cit">10</span>以及南阳市本地的经济结构<span class="cit">3</span><span class="cit">4</span>、产业规划<span class="cit">4</span>与消费趋势<span class="cit">8</span>的综合分析，以下是对河南省南阳市普通家庭而言，<b>风险最高、最不推荐参与的行业</b>。排序主要依据风险的普遍性、持续性以及对资金有限的家庭的潜在毁灭性影响。</p>
+
+      <h3>南阳市普通家庭慎入行业风险排序表</h3>
+      <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>风险等级</th><th>行业领域</th><th>核心风险与南阳本地化分析</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="lvl t1">极高</td>
+              <td class="name">传统线下零售</td>
+              <td><b>风险本质：</b>受电商和即时零售的持续冲击，面临客流量下滑、租金人力成本高企、利润空间被极度压缩的困境<span class="cit">7</span>。<br><b>南阳关联：</b>南阳城镇人口超512万，消费线上化趋势明显<span class="cit">3</span>。对于缺乏独特货源和强大线上运营能力的普通家庭，开设服装、日用百货等传统实体店铺，极易沦为“试衣间”或“体验店”，投入的装修和首批货款沉没风险极高<span class="cit">7</span><span class="cit">10</span>。</td>
+            </tr>
+            <tr class="re-row">
+              <td class="lvl t1">极高</td>
+              <td class="name">中小型房地产开发<span class="re-tag">房地产</span></td>
+              <td><b>风险本质：</b>在行业整体调整期，中小房企面临融资渠道基本关闭、市场观望情绪浓、资金链极易断裂的致命风险<span class="cit">10</span>。<br><b>南阳关联：</b>南阳房地产开发投资已连续多年呈下降态势<span class="cit">3</span>，市场去化压力大。普通家庭缺乏巨额资金和抗风险能力，进入此领域无异于赌博<span class="cit">10</span>。</td>
+            </tr>
+            <tr>
+              <td class="lvl t1">极高</td>
+              <td class="name">低端制造业</td>
+              <td><b>风险本质：</b>面临原材料、人力成本刚性上升，环保要求日趋严格，利润微薄且竞争惨淡的“三重绞杀”<span class="cit">7</span><span class="cit">10</span>。<br><b>南阳关联：</b>南阳的产业规划明确指向传统制造业（如纺织服装、油碱化工）需转型升级<span class="cit">4</span>。普通家庭若投资技术含量低、附加值低的代工或初级产品制造，将直接面临本地升级政策和市场竞争的双重挤压<span class="cit">3</span><span class="cit">4</span>。</td>
+            </tr>
+            <tr>
+              <td class="lvl t2">高</td>
+              <td class="name">传统教育培训（学科类）</td>
+              <td><b>风险本质：</b>“双减”政策后，学科类培训需求与合法性受到根本性制约，市场空间已严重萎缩<span class="cit">7</span>。<br><b>南阳关联：</b>虽然南阳家庭重视教育，但政策红线不可触碰。投资学科辅导机构面临严格的监管和持续的运营风险，不符合长期发展方向<span class="cit">7</span>。</td>
+            </tr>
+            <tr>
+              <td class="lvl t2">高</td>
+              <td class="name">盲目跟风的“风口”行业</td>
+              <td><b>风险本质：</b>如早期的共享经济、部分元宇宙概念项目等，商业模式不成熟，泡沫化严重，先驱往往成为“先烈”<span class="cit">7</span>。<br><b>南阳关联：</b>南阳并非前沿风口的一线阵地，普通家庭跟风投资极易因信息滞后、资源不足而成为被收割的终端，血本无归<span class="cit">7</span><span class="cit">10</span>。</td>
+            </tr>
+            <tr>
+              <td class="lvl t2">高</td>
+              <td class="name">商场内餐饮店</td>
+              <td><b>风险本质：</b>承受高额租金（常占营收30%以上）、商场统一管理抽成、同质化竞争激烈，且商场客流量不稳定，闭店率极高<span class="cit">10</span>。<br><b>南阳关联：</b>南阳商业综合体发展迅速，但内部餐饮竞争白热化。普通家庭投入巨资进入，往往难以覆盖成本，沦为为商场和房东打工<span class="cit">10</span>。</td>
+            </tr>
+            <tr>
+              <td class="lvl t3">较高</td>
+              <td class="name">同质化严重的奶茶/零食店</td>
+              <td><b>风险本质：</b>行业饱和度高，头部品牌关店率攀升，中小品牌生存艰难。总部常通过强制采购高价原料等方式压缩加盟商利润<span class="cit">10</span>。<br><b>南阳关联：</b>此类门店在南阳市区已呈密布状态，新进入者面临极大的竞争压力和回本周期延长的风险<span class="cit">10</span>。</td>
+            </tr>
+            <tr>
+              <td class="lvl t3">较高</td>
+              <td class="name">母婴产品实体店</td>
+              <td><b>风险本质：</b>受新生儿数量持续下降影响，母婴市场整体规模缩减。同时，线上渠道价格优势明显，实体店沦为“展示柜”<span class="cit">10</span>。<br><b>南阳关联：</b>南阳人口自然增长率为负<span class="cit">3</span>，本地母婴市场的基本面承压，实体经营难度加大<span class="cit">10</span>。</td>
+            </tr>
+            <tr>
+              <td class="lvl t3">较高</td>
+              <td class="name">AI绘画/写作培训班</td>
+              <td><b>风险本质：</b>知识壁垒低，免费教程泛滥，市场需求被严重夸大，极易被贴上“割韭菜”标签，生命周期短<span class="cit">10</span>。<br><b>南阳关联：</b>普通家庭缺乏持续的内容研发和品牌营销能力，容易陷入招生困难、口碑崩坏的恶性循环<span class="cit">10</span>。</td>
+            </tr>
+            <tr>
+              <td class="lvl t3">注意</td>
+              <td class="name">养老服务站（民营）</td>
+              <td><b>风险本质：</b>前期投入大（加盟、设备、装修），但老年人付费意愿普遍不强，盈利模式不清，过度依赖难以到位的政府补贴，存活率低<span class="cit">10</span>。<br><b>南阳关联：</b>虽有政策支持，但南阳民营养老机构的市场成熟度和支付能力尚需培育，普通家庭运营风险巨大<span class="cit">10</span>。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>总结建议</h3>
+      <p>对于南阳的普通家庭，创业应遵循 <b>“轻资产、低风险、强需求、好借力”</b> 的原则<span class="cit">6</span>。应优先关注与南阳本地消费升级、社区便民服务、绿色农业深加工、文旅康养等领域相关的、有成熟平台支撑的轻资产机会<span class="cit">8</span>。在决策前，务必利用南阳市正在优化的营商环境服务（如“一件事”集成服务、“AI就业创业”平台）进行咨询和评估<span class="cit">11</span><span class="cit">12</span>，最大限度规避行业与个人资源错配的风险。</p>
+
+      <div class="src-note"><span class="badge">✦ 数据来源说明：</span>文中上标 <span class="cit">数字</span> 为该模型回答时所引用的联网搜索来源编号（如 citation:3、citation:7、citation:10 等），原始引用对应的具体网址未在文件中给出，仅保留来源编号以体现其有据可依。</div>
+    </div>
+  </section>
+
+  <!-- ===================== C ChatGPT ===================== -->
+  <section class="ai">
+    <div class="src-flag">含数据来源 ✦</div>
+    <div class="ai-head">
+      <div class="row1">
+        <span class="seq">D</span>
+        <span class="ai-name">ChatGPT</span>
+        <span class="flag fr">国外</span>
+      </div>
+      <div class="org" style="margin-top:6px;">OpenAI（美国）· GPT 系列大模型</div>
+      <div class="strength"><b>国外模型 · 实力说明：</b>由美国 OpenAI 研发，是<b>全球公认的顶级通用大模型之一</b>，综合能力长期处于世界第一梯队，引领了本轮生成式 AI 浪潮。本回答引用了南阳市统计局官方数据。</div>
+    </div>
+    <div class="ai-body">
+      <p>截至 <b>2026 年 6 月</b>，对河南南阳普通家庭来说，<b>最不推荐重仓参与的行业，我会排第一：房地产及其强相关链条</b>。不是说这些行业完全不能做，而是<b>不适合普通家庭拿积蓄、贷款、亲戚钱去赌</b>。</p>
+      <p>南阳本地有几个关键背景：2025 年南阳房地产开发投资同比下降 <b>23.1%</b>，住宅投资下降 <b>24.2%</b>；同时南阳人口自然增长率为 <b>-3.77‰</b>，居民人均可支配收入 <b>32012 元</b>，属于“消费有恢复，但家庭风险承受力不能高估”的城市环境。</p>
+      <a class="src-link" href="https://tj.nanyang.gov.cn/2026/04-20/1398809.html" target="_blank" rel="noopener">✦ 数据来源：<b>南阳市统计局 tj.nanyang.gov.cn</b>（2026-04-20）</a>
+
+      <h3>南阳普通家庭最不推荐行业排行（Top 10）</h3>
+      <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>排名</th><th>最不推荐参与的行业/项目</th><th>不推荐程度</th><th>对南阳普通家庭的主要风险</th><th>典型坑位</th><th>除非满足什么条件，否则别碰</th></tr></thead>
+          <tbody>
+            <tr class="re-row">
+              <td class="lvl t1">1</td>
+              <td class="name">房地产链条：炒房、商铺、公寓、开发商项目、房产中介门店、重资产装修建材店<span class="re-tag">房地产</span></td>
+              <td class="lvl r5">极高</td>
+              <td>南阳 2025 年房地产开发投资下降 23.1%，商品房销售额下降 4.2%；全国房地产开发投资也下降 17.2%，行业还在出清。普通家庭最怕“资产砸手里 + 现金流断”。<a class="isrc" href="https://tj.nanyang.gov.cn/2026/04-20/1398809.html" target="_blank" rel="noopener">✦tj.nanyang.gov.cn</a></td>
+              <td>低价商铺、返租公寓、亲戚合伙买门面、开发商抵账房、装修建材高库存</td>
+              <td>你有核心地段资源、稳定客户、低负债，并且不是靠房价上涨赚钱</td>
+            </tr>
+            <tr>
+              <td class="lvl t1">2</td>
+              <td class="name">高加盟费餐饮：奶茶、炸鸡、小吃、火锅、烧烤、咖啡、预制菜快餐加盟</td>
+              <td class="lvl r4">很高</td>
+              <td>南阳餐饮收入 2025 年增长 6.7%，说明有需求；但全国 2026 年 5 月餐饮收入同比只增 0.6%，消费恢复并不强。普通家庭容易把“有人吃饭”误判成“自己能赚钱”。<a class="isrc" href="https://tj.nanyang.gov.cn/2026/04-20/1398809.html" target="_blank" rel="noopener">✦tj.nanyang.gov.cn</a></td>
+              <td>加盟费、装修费、设备费、转让费、商场扣点、平台抽佣、外卖价格战</td>
+              <td>自己懂选址、懂成本、亲自盯店，且总投入不要超过家庭可承受亏损</td>
+            </tr>
+            <tr>
+              <td class="lvl t1">3</td>
+              <td class="name">K12 学科培训、违规托管、变相补课机构</td>
+              <td class="lvl r4">很高</td>
+              <td>政策监管仍然强，教育部全国校外培训平台强化合同、课程、资金、信用监管；擅自或变相开展学科培训有处罚风险。南阳人口自然增长为负，长期生源也不能盲目乐观。<span class="isrc">✦新华网</span></td>
+              <td>“托管 + 补课”、周末班、地下小班、租教室办班、老师合伙班</td>
+              <td>只做合规非学科、素质教育、研学、体育艺术，并且证照齐全</td>
+            </tr>
+            <tr>
+              <td class="lvl t2">4</td>
+              <td class="name">传统线下服装店、鞋帽店、商场档口、品牌专卖店</td>
+              <td class="lvl r3">高</td>
+              <td>全国 2026 年 1—5 月限额以上零售中，百货店下降 1.8%，品牌专卖店下降 7.6%，网上商品和服务零售增长 5.9%。线下店不是没机会，而是普通家庭很难同时打赢租金、库存和线上价格。<span class="isrc">✦国家统计局</span></td>
+              <td>进货压款、换季库存、商场租金、加盟品牌压货、直播低价冲击</td>
+              <td>有稳定私域、懂短视频直播、低租金、能做差异化款式</td>
+            </tr>
+            <tr class="re-row">
+              <td class="lvl t2">5</td>
+              <td class="name">家居、家具、大家电、装饰材料大店<span class="re-tag">房地产关联</span></td>
+              <td class="lvl r3">高</td>
+              <td>这类行业和房地产、装修周期强相关。全国 2026 年 1—5 月家具类零售下降 3.0%，家电和音像器材类下降 6.9%；南阳 2025 年家具类也下降 3.9%。<span class="isrc">✦国家统计局</span></td>
+              <td>大店面、高库存、账期长、工程回款慢、熟人赊账</td>
+              <td>只做轻资产安装、维修、局部改造、存量房翻新服务，而不是压货开大店</td>
+            </tr>
+            <tr>
+              <td class="lvl t2">6</td>
+              <td class="name">“无货源电商”、低端直播带货、跨境电商培训式项目</td>
+              <td class="lvl r3">高</td>
+              <td>电商不是不能做，而是普通家庭最容易被“低门槛、可复制、月入几万”话术吸引。现在网上零售还在增长，但这也意味着竞争更集中在流量、供应链、内容能力上。<span class="isrc">✦国家统计局</span></td>
+              <td>买课、代运营、铺货软件、刷单、压货、平台规则变化、退货率高</td>
+              <td>你自己有货源、懂内容、懂投流，并且先小规模测试</td>
+            </tr>
+            <tr>
+              <td class="lvl t3">7</td>
+              <td class="name">光伏、充电桩、新能源设备“加盟代理”</td>
+              <td class="lvl r3">中高</td>
+              <td>南阳太阳能发电装机增长 27.8%，说明方向有政策和产业机会；但普通家庭最危险的是参与“代理加盟”“屋顶资源合作”“包收益”这类中间层项目，容易既不懂技术，也不掌握客户。<a class="isrc" href="https://tj.nanyang.gov.cn/2026/04-20/1398809.html" target="_blank" rel="noopener">✦tj.nanyang.gov.cn</a></td>
+              <td>保底收益、设备代理、押金、工程垫资、并网和回款不确定</td>
+              <td>有电力工程、施工资质、真实客户资源，合同能看懂，收益不靠口头承诺</td>
+            </tr>
+            <tr>
+              <td class="lvl t3">8</td>
+              <td class="name">民营养老院、托育、月子中心、儿童成长中心</td>
+              <td class="lvl r3">中高</td>
+              <td>需求看似存在，但都是重服务、重合规、重口碑、回本慢的行业。南阳 2025 年养老服务机构和设施床位 12.37 万张，服务人数 6.49 万人，供给并不低；同时出生人口低于死亡人口，托育/月子类长期要谨慎。<a class="isrc" href="https://tj.nanyang.gov.cn/2026/04-20/1398809.html" target="_blank" rel="noopener">✦tj.nanyang.gov.cn</a></td>
+              <td>租大场地、装修重投入、证照不全、入住率不足、护理人员难招</td>
+              <td>有医疗/护理/幼教资源，能做社区小规模、长期稳定运营</td>
+            </tr>
+            <tr>
+              <td class="lvl t3">9</td>
+              <td class="name">砂石、矿山、危化、环保高监管行业</td>
+              <td class="lvl r3">中高</td>
+              <td>南阳矿产资源多，但这类行业不是普通家庭“有关系、有胆子”就能做，涉及资质、安全、环保、执法和资金实力。南阳 2025 年已发现矿种 86 种、已开发利用矿种 36 种，说明资源存在，但门槛也高。<a class="isrc" href="https://tj.nanyang.gov.cn/2026/04-20/1398809.html" target="_blank" rel="noopener">✦tj.nanyang.gov.cn</a></td>
+              <td>借资质、挂靠、环保整改、安全事故、工程款拖欠</td>
+              <td>有正规资质、工程经验、稳定订单和合规能力</td>
+            </tr>
+            <tr>
+              <td class="lvl t3">10</td>
+              <td class="name">跟风养殖、种植、药材囤货、农产品投机</td>
+              <td class="lvl r3">中高</td>
+              <td>南阳是农业大市，但农业适合长期懂行的人，不适合普通家庭听消息重仓。2025 年南阳牛存栏下降 9.8%，羊存栏下降 14.7%，羊出栏下降 17.0%，说明养殖结构和价格周期波动明显。<a class="isrc" href="https://tj.nanyang.gov.cn/2026/04-20/1398809.html" target="_blank" rel="noopener">✦tj.nanyang.gov.cn</a></td>
+              <td>跟风养牛羊、药材囤货、包地种植、农产品代收代储、赊账</td>
+              <td>家里本来就懂农业，有土地、人手、渠道，不贷款扩张</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>一句话结论</h3>
+      <div class="conclusion">对南阳普通家庭来说，<b>最不推荐的是：房地产相关行业 + 高加盟费餐饮 + 违规教培 + 重资产线下零售</b>。</div>
+
+      <p>真正的判断标准不是“这个行业有没有人赚钱”，而是：</p>
+      <p><b>更适合普通家庭的方向</b>，不是“暴富行业”，而是：低库存、低房租、轻资产、靠技能或服务复购的生意，比如本地维修安装、社区服务、老人陪诊、短视频本地获客、农产品小规模品牌化、企业获客服务、县城本地生活服务。</p>
+    </div>
+  </section>
+
+  <!-- ===================== D Claude ===================== -->
+  <section class="ai">
+    <div class="src-flag">含数据来源 ✦</div>
+    <div class="ai-head">
+      <div class="row1">
+        <span class="seq">E</span>
+        <span class="ai-name">Claude</span>
+        <span class="flag fr">国外</span>
+      </div>
+      <div class="org" style="margin-top:6px;">Anthropic（美国）· Claude 系列大模型</div>
+      <div class="strength"><b>国外模型 · 实力说明：</b>由美国 Anthropic 研发，是<b>与 ChatGPT 齐名的世界第一梯队大模型</b>，尤以<b>严谨推理、长文本理解和安全审慎的表达</b>见长。本回答引用了全国及南阳本地的公开宏观数据。</div>
+    </div>
+    <div class="ai-body">
+      <p>这是个值得认真对待的问题——涉及普通家庭的财产和生计安全。我先查一些当前的行业和南阳本地的情况，再给你整理。我再查一下南阳本地的产业和经济情况，让建议更贴合当地。先说清楚：下面是基于公开宏观数据和南阳本地经济情况整理的<b>风险提示</b>，不是投资建议（我不是持牌投资顾问）。每个行业并非绝对不能碰，而是对“普通家庭、本金有限、抗风险能力弱”这个前提来说，踩坑概率高、亏起来伤筋动骨。最终决定还得你自己结合家底和资源判断。</p>
+
+      <p>几个关键背景：全国2025年固定资产投资同比下降 <b>3.8%</b>，为有统计数据以来首次出现年度负增长，其中房地产投资四季度同比降至 <b>-29.5%</b>；南阳本地产业基础薄弱，二产占比2023年降至 <b>28.8%</b>、全省垫底，且曾被冠上“烂尾楼之都”称号，是河南人口流失最严重的城市之一。这意味着南阳的消费力、人口、资金面都偏弱，做生意“接盘侠”更少。</p>
+      <div class="src-note"><span class="badge">✦ 数据来源说明：</span>本回答依据“全国固定资产投资、房地产投资增速”等公开宏观统计数据，以及南阳本地“二产占比、人口流失”等经济情况整理，原文未附具体网址链接。</div>
+
+      <h3>南阳普通家庭风险排序表</h3>
+      <div class="scroll-hint">← 左右滑动查看完整表格 →</div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>排序</th><th>行业/赛道</th><th>严重程度</th><th>主要风险</th><th>南阳本地放大因素</th></tr></thead>
+          <tbody>
+            <tr class="re-row">
+              <td class="lvl t1">1</td>
+              <td class="name">房产投资/炒房、商铺铺位<span class="re-tag">房地产</span></td>
+              <td class="lvl r5">★★★★★</td>
+              <td>资金占用极大、流动性差、价格仍在下行；一旦套牢拖垮整个家庭现金流</td>
+              <td>历史“烂尾楼”问题突出，人口外流→房子和商铺越来越难出手</td>
+            </tr>
+            <tr>
+              <td class="lvl t1">2</td>
+              <td class="name">散户养殖（生猪/家禽等）</td>
+              <td class="lvl r5">★★★★★</td>
+              <td>行业2025年9月起进入亏损周期，磨底至少三个季度；疫病+价格双杀，散户拼不过规模场</td>
+              <td>牧原（全省第2大民企）总部在南阳，规模化挤压本地散户生存空间</td>
+            </tr>
+            <tr>
+              <td class="lvl t2">3</td>
+              <td class="name">餐饮加盟/网红连锁（奶茶、小吃等）</td>
+              <td class="lvl r4">★★★★☆</td>
+              <td>加盟费+装修+押金前期投入大，总部割韭菜套路多，闭店率极高</td>
+              <td>本地消费力弱、客单价低，网红店“昙花一现”更快</td>
+            </tr>
+            <tr>
+              <td class="lvl t2">4</td>
+              <td class="name">独立开餐馆/小饭店</td>
+              <td class="lvl r4">★★★★☆</td>
+              <td>失败率本就高，叠加“反内卷”打击价格战，房租人工成本刚性</td>
+              <td>街面客流稀，街上“空荡荡、连续多日不开张”现象普遍</td>
+            </tr>
+            <tr>
+              <td class="lvl t2">5</td>
+              <td class="name">实体服装/百货零售店</td>
+              <td class="lvl r4">★★★★☆</td>
+              <td>被电商和直播彻底碾压，库存积压，毛利越压越薄</td>
+              <td>三四线城市线下零售萎缩更快，商场空置率高</td>
+            </tr>
+            <tr>
+              <td class="lvl t3">6</td>
+              <td class="name">预付费业态（健身房/美容/早教）</td>
+              <td class="lvl r3">★★★☆☆</td>
+              <td>“收钱跑路”行业，现金流玩法，政策收紧，纠纷多</td>
+              <td>中小城市维权和监管更弱，出事更难追回</td>
+            </tr>
+            <tr>
+              <td class="lvl t3">7</td>
+              <td class="name">高息“理财”/民间借贷/各类“项目入股”</td>
+              <td class="lvl r3">★★★☆☆</td>
+              <td>承诺高回报多为骗局或庞氏，本金可能血本无归</td>
+              <td>政府2025年10月已专门发文防范化解企业债务风险，说明本地资金链偏紧</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>几点补充：</p>
+      <p><b>第一档（房产、散户养殖）</b>之所以最严重，是因为它们<b>单笔投入大、一旦失败基本就是几年甚至大半辈子积蓄归零</b>，对普通家庭是“致命级”而非“擦伤级”。</p>
+      <p><b>第二，</b>这张表是“风险排序”不是“禁区”。如果你有别人没有的独特优势——比如自家有稳定供货渠道、有现成铺面不用付租金、有专业技术或人脉——某些行业的实际风险会比表里低很多。</p>
+      <p><b>第三，</b>反过来，南阳本地相对在扶持的方向是先进制造、绿色低碳、生物医药新材料、数字经济等产业，但这些普通家庭很难直接切入，更现实的是去这些行业的成熟企业<b>就业</b>而不是自己创业。</p>
+      <p>如果你愿意说说手头大概有多少启动资金、家里有没有现成的资源（铺面、技术、渠道、人脉），我可以帮你把“该躲开什么”换成“以你的条件相对稳妥的几个方向”。</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="line"></div>
+    内容整理自 5 个 AI 模型对同一问题的原始回答，未删减 · 仅供参考，不构成投资建议<br>
+    地区：河南南阳 · 对象：普通家庭 · 时间：2026年6月
+  </footer>
+
+</div>
+</body>
+</html>
