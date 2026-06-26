@@ -24,12 +24,39 @@
     --shadow:0 1px 3px rgba(20,30,45,.06),0 8px 24px rgba(20,30,45,.05);
   }
   *{box-sizing:border-box;-webkit-text-size-adjust:100%;}
+  html{scroll-behavior:smooth;}
   body{
     margin:0;background:var(--bg);color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
     line-height:1.7;font-size:15px;
+    padding-top:48px; /* 给固定定位条留出空间 */
   }
   .wrap{max-width:760px;margin:0 auto;padding:0 14px 56px;}
+
+  /* 顶部固定快速定位条 */
+  .quicknav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    background:rgba(255,255,255,.94);backdrop-filter:saturate(180%) blur(10px);
+    -webkit-backdrop-filter:saturate(180%) blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(20,30,45,.06);
+    display:flex;align-items:center;gap:8px;padding:7px 12px;
+    overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+  }
+  .quicknav::-webkit-scrollbar{display:none;}
+  .quicknav .qn-label{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--brand);display:flex;align-items:center;gap:4px;}
+  .quicknav .qn-label svg{width:14px;height:14px;}
+  .quicknav a{flex:0 0 auto;font-size:13px;font-weight:600;color:var(--ink-soft);text-decoration:none;
+    padding:5px 12px;border-radius:20px;border:1px solid var(--line);background:#fff;white-space:nowrap;transition:.15s;}
+  .quicknav a:active{background:var(--brand);color:#fff;border-color:var(--brand);}
+  .quicknav a .fr-dot{color:var(--foreign);font-weight:700;}
+  /* 锚点定位时避免被固定条遮挡 */
+  .ai{scroll-margin-top:58px;}
+  /* 回到顶部按钮 */
+  .totop{position:fixed;right:14px;bottom:18px;z-index:50;width:44px;height:44px;border-radius:50%;
+    background:var(--brand);color:#fff;border:none;box-shadow:0 4px 14px rgba(19,49,92,.35);
+    font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;
+    opacity:0;visibility:hidden;transition:.2s;}
+  .totop.show{opacity:1;visibility:visible;}
 
   /* 顶部 */
   header.top{
@@ -130,6 +157,17 @@
 </style>
 </head>
 <body>
+
+<nav class="quicknav" aria-label="快速定位">
+  <span class="qn-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>定位</span>
+  <a href="#ai-doubao">豆包</a>
+  <a href="#ai-deepseek">DeepSeek</a>
+  <a href="#ai-xiaomi">小米</a>
+  <a href="#ai-chatgpt">ChatGPT<span class="fr-dot"> ·美</span></a>
+  <a href="#ai-claude">Claude<span class="fr-dot"> ·美</span></a>
+</nav>
+<button class="totop" id="totop" aria-label="回到顶部">↑</button>
+
 <div class="wrap">
 
   <header class="top">
@@ -152,7 +190,7 @@
   </div>
 
   <!-- ===================== A 豆包 ===================== -->
-  <section class="ai">
+  <section class="ai" id="ai-doubao">
     <div class="ai-head">
       <div class="row1">
         <span class="seq">A</span>
@@ -242,7 +280,7 @@
   </section>
 
   <!-- ===================== B DeepSeek ===================== -->
-  <section class="ai">
+  <section class="ai" id="ai-deepseek">
     <div class="ai-head">
       <div class="row1">
         <span class="seq">B</span>
@@ -311,7 +349,7 @@
   </section>
 
   <!-- ===================== C 小米 ===================== -->
-  <section class="ai">
+  <section class="ai" id="ai-xiaomi">
     <div class="src-flag">含数据来源 ✦</div>
     <div class="ai-head">
       <div class="row1">
@@ -393,7 +431,7 @@
   </section>
 
   <!-- ===================== C ChatGPT ===================== -->
-  <section class="ai">
+  <section class="ai" id="ai-chatgpt">
     <div class="src-flag">含数据来源 ✦</div>
     <div class="ai-head">
       <div class="row1">
@@ -508,7 +546,7 @@
   </section>
 
   <!-- ===================== D Claude ===================== -->
-  <section class="ai">
+  <section class="ai" id="ai-claude">
     <div class="src-flag">含数据来源 ✦</div>
     <div class="ai-head">
       <div class="row1">
@@ -599,5 +637,15 @@
   </footer>
 
 </div>
+
+<script>
+  (function(){
+    var btn=document.getElementById('totop');
+    function onScroll(){ (window.pageYOffset||document.documentElement.scrollTop)>400 ? btn.classList.add('show') : btn.classList.remove('show'); }
+    window.addEventListener('scroll',onScroll,{passive:true});
+    btn.addEventListener('click',function(){ window.scrollTo({top:0,behavior:'smooth'}); });
+    onScroll();
+  })();
+</script>
 </body>
 </html>
